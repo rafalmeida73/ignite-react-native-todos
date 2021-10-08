@@ -14,35 +14,43 @@ export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   function handleAddTask(newTaskTitle: string) {
-    //TODO - add new task
-    const updatedTasks = tasks.map(task => ({ ...task }))
-    const foundItem = updatedTasks.find(item => item.title === newTaskTitle)
+    // //TODO - add new task
+    // const updatedTasks = tasks.map(task => ({ ...task }))
+    // const foundItem = updatedTasks.find(item => item.title === newTaskTitle)
 
-    if(!newTaskTitle){
-      Alert.alert(
-        "Task sem nome",
-        "Você não pode cadastrar uma task sem nome",
-        [
-          { text: "OK", onPress: () => console.log("OK Pressed") }
-        ]
-      );
+    // if(!newTaskTitle){
+    //   Alert.alert(
+    //     "Task sem nome",
+    //     "Você não pode cadastrar uma task sem nome",
+    //     [
+    //       { text: "OK", onPress: () => console.log("OK Pressed") }
+    //     ]
+    //   );
+    // }
+    // else if (foundItem) {
+    //   Alert.alert(
+    //     "Task já cadastrada",
+    //     "Você não pode cadastrar uma task com o mesmo nome",
+    //     [
+    //       { text: "OK", onPress: () => console.log("OK Pressed") }
+    //     ]
+    //   );
+    // } else {
+    //   const newTask = {
+    //     id: new Date().getTime(),
+    //     done: false,
+    //     title: newTaskTitle
+    //   }
+    //   setTasks([...tasks, newTask])
+    // }
+
+    const newTask = {
+      id: new Date().getTime(),
+      done: false,
+      title: newTaskTitle
     }
-    else if (foundItem) {
-      Alert.alert(
-        "Task já cadastrada",
-        "Você não pode cadastrar uma task com o mesmo nome",
-        [
-          { text: "OK", onPress: () => console.log("OK Pressed") }
-        ]
-      );
-    } else {
-      const data = {
-        id: new Date().getTime(),
-        done: false,
-        title: newTaskTitle
-      }
-      setTasks([...tasks, data])
-    }
+
+    setTasks(oldTask => [...oldTask, newTask])
   }
 
   function handleToggleTaskDone(id: number) {
@@ -59,16 +67,18 @@ export function Home() {
 
   function handleRemoveTask(id: number) {
     //TODO - remove task from state
-    Alert.alert(
-      "Remover item",
-      "Tem certeza que você deseja remover esse item?",
-      [
-        { text: "Não", onPress: () => console.log("OK Pressed") },
-        {
-          text: "Sim", onPress: () => setTasks(tasks.filter(task => task.id !== id))
-        }
-      ]
-    );
+    const updateTasks = tasks.filter(task => task.id !== id);
+    setTasks(updateTasks)
+    // Alert.alert(
+    //   "Remover item",
+    //   "Tem certeza que você deseja remover esse item?",
+    //   [
+    //     { text: "Não", onPress: () => console.log("OK Pressed") },
+    //     {
+    //       text: "Sim", onPress: () => setTasks(updateTasks)
+    //     }
+    //   ]
+    // );
   }
 
   function handleEditTask({ taskId, taskNewTitle }: EditTaskArgs) {
@@ -86,8 +96,8 @@ export function Home() {
     <View style={styles.container}>
       <Header tasksCounter={tasks.length} />
 
-      <TodoInput 
-      addTask={handleAddTask} 
+      <TodoInput
+        addTask={handleAddTask}
       />
 
       <TasksList
